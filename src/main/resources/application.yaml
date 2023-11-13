@@ -1,0 +1,29 @@
+server:
+  port: 9000
+
+## spring
+spring:
+  application:
+    name: zy-gateway
+  ## knife4j ??
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+  cloud:
+    gateway:
+      enabled: true
+      routes:
+        - id: demo
+          uri: http://localhost:8081
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+
+        - id: demo1
+          uri: http://localhost:8085
+          predicates:
+            - Path=/demo1/**
+          filters:
+            - StripPrefix=1

@@ -5,13 +5,19 @@ server:
 spring:
   application:
     name: zy-gateway
-  ## knife4j ??
+  ## knife4j配置
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
 
+---
+### 网关
+spring:
   cloud:
     gateway:
+#      discovery:
+#        locator:   ### 开启自动路由需要配合注册中心
+#          enabled: true
       enabled: true
       routes:
         - id: demo
@@ -27,3 +33,26 @@ spring:
             - Path=/demo1/**
           filters:
             - StripPrefix=1
+
+
+# XSS配置
+security:
+  # XSS攻击
+  xss:
+    enabled: true
+    excludeUrls:
+      - /system/notice
+      - /system/flowable/**
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      # gateway ????
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
